@@ -1,6 +1,3 @@
-.. reference this page as :ref:`index` (from which it's included)
-
-
 Datapunt Config Loader
 ======================
 
@@ -22,14 +19,15 @@ Module that loads configuration settings from a yaml file.
     import logging
 
     CONFIG = config_loader.load(
-        path_to_config_file,
-        path_to_config_schema_file
+        'path/to/config_file.yaml',
+        'path/to/schema_file.yaml'
     )
     logging.config.dictConfig(CONFIG['logging'])
 
-This package comes with an example JSON schema file :file:`schema_example.json`
-that contains a schema definition for a dict that can be passed into
-`logging.config.dictConfig`.
+This package comes with an example YAML schema file ``schema_example.yaml``
+that contains, among other things, a schema definition for a dict that can be
+passed into `logging.config.dictConfig
+<https://docs.python.org/3/library/logging.config.html?highlight=dictconfig#logging.config.dictConfig>`_.
 
 
 Contributing

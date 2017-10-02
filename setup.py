@@ -9,7 +9,7 @@ setup(
     # ┏━━━━━━━━━━━━━━━━━━━━━━┓
     # ┃ Publication Metadata ┃
     # ┗━━━━━━━━━━━━━━━━━━━━━━┛
-    version='0.1.0',
+    version='1.0.0',
     name='datapunt_config_loader',
     description="Loads Yaml configuration files",
     long_description="""
@@ -37,7 +37,7 @@ setup(
     package_dir={'': 'src'},
     packages=find_packages('src'),
     package_data={
-        'config_loader': ['schema_example.json', 'config_example.yml']
+        'config_loader': ['schema_example.yaml', 'config_example.yaml']
     },
 
 

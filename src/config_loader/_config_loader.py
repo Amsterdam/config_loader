@@ -1,7 +1,11 @@
-import json
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
 import pathlib
 import string
 import typing as T
+from collections import ChainMap as _ChainMap
 
 import jsonschema
 import os
@@ -18,8 +22,9 @@ def load(config_file_path: T.Union[pathlib.PurePath, str],
     # language=rst
     """Load, parse and validate the configuration file.
 
-    :raise ConfigError: if something goes wrong
-    :raise FileNotFoundError: if something else goes wrong
+    Raises:
+        ConfigError: if something goes wrong
+        FileNotFoundError: if something else goes wrong
     """
     if not isinstance(config_file_path, pathlib.PurePath):
         config_file_path = pathlib.Path(config_file_path)
@@ -31,19 +36,14 @@ def load(config_file_path: T.Union[pathlib.PurePath, str],
     return config
 
 
-def _load_yaml(path):
+def _load_yaml(path: pathlib.Path) -> T.Union[T.Dict, T.List]:
     # language=rst
-    """Read the config file from ``path``.
-
-    :param pathlib.Path path:
-    :returns dict or set or list: the config object, as read from file.
-
-    """
+    """Read the config file from ``path``."""
     with path.open() as f:
         try:
             return yaml.load(f)
         except yaml.YAMLError as e:
-            error_msg = "Couldn't parse config file {}."
+            error_msg = "Couldn't load yaml file '{}'."
             raise ConfigError(error_msg.format(path)) from e
 
 
@@ -86,24 +86,17 @@ def _interpolate_environment(config: T.Dict):
     return {key: interpolate_recursive(config[key]) for key in config}
 
 
-def _validate(config, schemafile):
+def _validate(config: T.Union[T.Dict, T.List], schemafile: pathlib.Path):
     # language=rst
     """
     Validate the given ``config`` using the JSON schema given in ``schemafile``.
 
-    :param config: configuration object.
-    :type config: dict or set or list
-    :param pathlib.Path schemafile: path to the JSON Schema definition file.
+    Raises:
+        ConfigError
 
     """
-    with schemafile.open() as f:
-        try:
-            schema = json.load(f)
-        except json.JSONDecodeError as e:
-            error_msg = "Couldn't parse JSON schema {}"
-            raise ConfigError(error_msg.format(schemafile)) from e
+    schema = _load_yaml(schemafile)
     try:
-        # noinspection PyUnboundLocalVariable
         jsonschema.validate(config, schema)
     except jsonschema.exceptions.SchemaError as e:
         error_msg = "Invalid JSON schema definition at {}"
@@ -125,7 +118,20 @@ class _TemplateWithDefaults(string.Template):
     idpattern = r'[_a-z][_a-z0-9]*(?::?-[^}]+)?'
 
     # Modified from python2.7/string.py
-    def substitute(self, mapping):
+    def substitute(*args, **kws):
+        if not args:
+            raise TypeError("descriptor 'substitute' of 'Template' object "
+                            "needs an argument")
+        self, *args = args  # allow the "self" keyword be passed
+        if len(args) > 1:
+            raise TypeError('Too many positional arguments')
+        if not args:
+            mapping = kws
+        elif kws:
+            mapping = _ChainMap(kws, args[0])
+        else:
+            mapping = args[0]
+
         # Helper function for .sub()
         def convert(mo):
             # Check the most common path first.
