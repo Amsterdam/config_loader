@@ -30,26 +30,17 @@ release: test clean
 	$(PYTHON) setup.py sdist upload
 
 
-build:
-	$(PYTHON) setup.py build
-
-
 test:
 	$(PYTEST) --addopts "$(PYTEST_OPTS) $(TESTS)"
 
 
 testcov:
-	$(PYTEST) $(PYTEST_OPTS_COV) $(TESTS)
+	$(PYTEST) --addopts "$(PYTEST_OPTS_COV) $(TESTS)"
 
 
 clean:
-	@$(RM) .cache .coverage .eggs src/datapunt_config_loader.egg-info
+	@$(RM) .eggs src/datapunt_config_loader.egg-info dist .coverage
 	@find . \( \
 		    -iname "*~" \
-		-or -iname ".DS_Store" \
-        -or -iname "*.pyc" \
 		-or -iname "__pycache__" \
-		-or -iname "Desktop.ini" \
-		-or -iname "Thumbs.db" \
-		-or -iname "__MACOSX__" \
 	\) -delete

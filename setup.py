@@ -3,6 +3,11 @@
 """
 from setuptools import setup, find_packages
 
+tests_require = [
+    'pytest',
+    'pytest-cov',
+    'pytest-aiohttp',
+]
 
 setup(
 
@@ -44,6 +49,7 @@ setup(
     # ┏━━━━━━━━━━━━━━┓
     # ┃ Requirements ┃
     # ┗━━━━━━━━━━━━━━┛
+    python_requires='~=3.6',
     setup_requires=[
         'pytest-runner',
     ],
