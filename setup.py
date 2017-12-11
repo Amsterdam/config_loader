@@ -14,7 +14,7 @@ setup(
     # ┏━━━━━━━━━━━━━━━━━━━━━━┓
     # ┃ Publication Metadata ┃
     # ┗━━━━━━━━━━━━━━━━━━━━━━┛
-    version='1.0.1',
+    version='1.1.0',
     name='datapunt_config_loader',
     description="Loads Yaml configuration files",
     long_description="""
@@ -22,7 +22,8 @@ setup(
         file.  It provides:
 
         -   schema validation of your configuration file
-        -   variable interpolation using environment variables.
+        -   variable interpolation using environment variables
+        -   freezing your configuration dictionary.
 
     """,
     url='https://github.com/Amsterdam/config_loader',
