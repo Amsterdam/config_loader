@@ -14,7 +14,7 @@ setup(
     # ┏━━━━━━━━━━━━━━━━━━━━━━┓
     # ┃ Publication Metadata ┃
     # ┗━━━━━━━━━━━━━━━━━━━━━━┛
-    version='1.0.0',
+    version='1.0.1',
     name='datapunt_config_loader',
     description="Loads Yaml configuration files",
     long_description="""

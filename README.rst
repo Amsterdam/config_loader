@@ -24,6 +24,9 @@ Module that loads configuration settings from a yaml file.
     )
     logging.config.dictConfig(CONFIG['logging'])
 
+    # Optionally:
+    CONFIG = config_loader.freeze(CONFIG)
+
 This package comes with an example YAML schema file ``schema_example.yaml``
 that contains, among other things, a schema definition for a dict that can be
 passed into `logging.config.dictConfig
