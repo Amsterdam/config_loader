@@ -14,8 +14,8 @@ setup(
     # ┏━━━━━━━━━━━━━━━━━━━━━━┓
     # ┃ Publication Metadata ┃
     # ┗━━━━━━━━━━━━━━━━━━━━━━┛
-    version='1.1.0',
-    name='datapunt_config_loader',
+    version='1.1.1',
+    name='datapunt-config-loader',
     description="Loads Yaml configuration files",
     long_description="""
         This package helps you read your application’s configuration from a YAML
