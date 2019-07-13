@@ -41,7 +41,7 @@ def _load_yaml(path: pathlib.Path) -> T.Union[T.Dict, T.List]:
     """Read the config file from ``path``."""
     with path.open() as f:
         try:
-            return yaml.load(f)
+            return yaml.full_load(f)
         except yaml.YAMLError as e:
             error_msg = "Couldn't load yaml file '{}'."
             raise ConfigError(error_msg.format(path)) from e
